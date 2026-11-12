@@ -1,0 +1,689 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="켄다마와 다루마오토시 미션을 혼자 연습하거나 2~4명이 5분 동안 겨루는 초등 3학년용 일본 놀이 체험 페이지">
+<style>body{margin:0}[hidden]{display:none!important}</style>
+<title>일본 놀이 미션 대전</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jua&family=Noto+Sans+KR:wght@400;700;900&display=swap">
+<style>
+/* Layout: 와시(일본 종이) 바탕 위에 주홍·남색 띠, 큰 카드와 큰 버튼. 대전은 인원 수만큼 화면을 나눔 */
+:root{
+  --paper:#f7f2e7; --paper2:#efe5d0; --card:#fffdf8; --ink:#2a2119; --muted:#76685a; --line:#e2d4b8;
+  --shu:#c8372d; --shu-ink:#ffffff; --ai:#1f3a5f; --ai-ink:#ffffff; --gold:#e9a900; --glow:rgba(255,206,64,.55);
+  --ok:#1d8f52; --okbg:#e5f5ec; --warn:#c8372d;
+  --p1:#d9433a; --p2:#2d6fd2; --p3:#1d8f52; --p4:#d99a00;
+  --p1bg:#fdeceb; --p2bg:#e9f0fc; --p3bg:#e5f5ec; --p4bg:#fdf4dc;
+  --shadow:0 3px 0 rgba(60,40,10,.10), 0 10px 26px rgba(60,40,10,.08);
+  --f-display:"Jua","Malgun Gothic","Apple SD Gothic Neo",sans-serif;
+  --f-body:"Noto Sans KR","Malgun Gothic","Apple SD Gothic Neo",sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --paper:#1b1713; --paper2:#26201a; --card:#2b241d; --ink:#f4ebde; --muted:#b9a993; --line:#43382c;
+  --shu:#e0574c; --ai:#9db8e6; --ai-ink:#14202f; --glow:rgba(255,206,64,.35);
+  --ok:#4cc985; --okbg:#173a28;
+  --p1bg:#3a2220; --p2bg:#1c2a40; --p3bg:#173a28; --p4bg:#3a3018;
+  color-scheme:dark}}
+:root[data-theme="dark"]{
+  --paper:#1b1713; --paper2:#26201a; --card:#2b241d; --ink:#f4ebde; --muted:#b9a993; --line:#43382c;
+  --shu:#e0574c; --ai:#9db8e6; --ai-ink:#14202f; --glow:rgba(255,206,64,.35);
+  --ok:#4cc985; --okbg:#173a28;
+  --p1bg:#3a2220; --p2bg:#1c2a40; --p3bg:#173a28; --p4bg:#3a3018;
+  color-scheme:dark}
+
+*{box-sizing:border-box}
+body{background:var(--paper);color:var(--ink);font-family:var(--f-body);font-size:18px;line-height:1.5;min-height:100vh;
+  background-image:radial-gradient(circle at 20% 10%, rgba(200,55,45,.05) 0 2px, transparent 3px),radial-gradient(circle at 70% 60%, rgba(31,58,95,.05) 0 2px, transparent 3px);
+  background-size:38px 38px, 52px 52px}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--ai)}
+button{font:inherit;color:inherit;cursor:pointer}
+button:focus-visible,input:focus-visible{outline:4px solid var(--gold);outline-offset:2px}
+h1,h2,h3{font-family:var(--f-display);font-weight:400;margin:0;text-wrap:balance}
+
+.topbar{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--ai);color:#fff;
+  padding-block:10px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));
+  display:flex;align-items:center;gap:12px;flex-wrap:wrap;
+  background-image:radial-gradient(circle at 100% 100%, transparent 14px, rgba(255,255,255,.08) 15px 17px, transparent 18px);background-size:36px 18px}
+.topbar .brand{font-family:var(--f-display);font-size:24px;display:flex;align-items:center;gap:8px;background:none;border:0;color:#fff;padding:4px 0}
+.topbar .brand .hanko{width:34px;height:34px;border-radius:8px;background:var(--shu);display:grid;place-items:center;font-size:18px;color:#fff}
+.topbar .sp{flex:1}
+.tbtn{background:rgba(255,255,255,.14);border:2px solid rgba(255,255,255,.35);color:#fff;border-radius:12px;padding:6px 14px;font-weight:700;font-size:16px;min-height:44px}
+.tbtn:hover{background:rgba(255,255,255,.24)}
+
+main{padding-block:24px 48px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));max-width:1500px;margin:0 auto}
+.wrap{max-width:1100px;margin:0 auto;display:flex;flex-direction:column;gap:24px}
+
+/* ---------- 홈 ---------- */
+.hero{text-align:center;display:flex;flex-direction:column;gap:8px;align-items:center;padding-top:8px}
+.hero h1{font-size:clamp(34px,6vw,58px);color:var(--shu);line-height:1.15}
+.hero p{margin:0;color:var(--muted);font-size:20px}
+.hero .arts{display:flex;gap:8px;justify-content:center}
+.hero .arts svg{width:150px;height:125px}
+.choice{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px}
+.bigchoice{background:var(--card);border:3px solid var(--line);border-radius:24px;padding:26px 24px;text-align:left;box-shadow:var(--shadow);
+  display:flex;flex-direction:column;gap:10px;transition:transform .15s, border-color .15s;min-width:0}
+.bigchoice:hover{transform:translateY(-3px);border-color:var(--shu)}
+.bigchoice .ico{font-size:44px;line-height:1}
+.bigchoice h2{font-size:34px}
+.bigchoice ul{margin:0;padding-left:20px;color:var(--muted);font-size:18px}
+.bigchoice .go{margin-top:6px;align-self:flex-start;background:var(--shu);color:#fff;border-radius:14px;padding:10px 20px;font-family:var(--f-display);font-size:22px}
+.bigchoice.battle .go{background:var(--ai);color:var(--ai-ink)}
+.gamecard{align-items:center;text-align:center}
+.gamecard svg{width:100%;max-width:240px;height:170px}
+.gamecard small{font-size:16px;color:var(--muted)}
+
+/* ---------- 공통 ---------- */
+.pagehead{display:flex;align-items:flex-end;gap:16px;flex-wrap:wrap;justify-content:space-between}
+.pagehead h1{font-size:clamp(30px,4.5vw,44px)}
+.pagehead .sub{color:var(--muted);font-size:18px;margin:2px 0 0}
+.tag{display:inline-block;font-family:var(--f-display);font-size:16px;border-radius:999px;padding:3px 12px;background:var(--paper2);color:var(--muted)}
+.tag.shu{background:var(--shu);color:#fff}
+.tag.ai{background:var(--ai);color:var(--ai-ink)}
+.btn{border:0;border-radius:16px;padding:12px 22px;font-family:var(--f-display);font-size:22px;min-height:60px;background:var(--paper2);color:var(--ink);box-shadow:0 3px 0 rgba(0,0,0,.12)}
+.btn:active{transform:translateY(2px);box-shadow:none}
+.btn.shu{background:var(--shu);color:#fff}
+.btn.ai{background:var(--ai);color:var(--ai-ink)}
+.btn.ok{background:var(--ok);color:#fff}
+.btnrow{display:flex;gap:12px;flex-wrap:wrap}
+.progress{height:18px;border-radius:999px;background:var(--paper2);overflow:hidden;border:2px solid var(--line)}
+.progress i{display:block;height:100%;background:linear-gradient(90deg,var(--gold),#f5c842);border-radius:999px;transition:width .4s}
+.starbox{display:flex;align-items:center;gap:14px;background:var(--card);border:3px solid var(--line);border-radius:20px;padding:14px 18px;flex-wrap:wrap}
+.starbox .num{font-family:var(--f-display);font-size:34px;white-space:nowrap}
+.starbox .progress{flex:1;min-width:160px}
+
+/* ---------- 연습 미션 카드 ---------- */
+.mgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px}
+.mcard{position:relative;background:var(--card);border:3px solid var(--line);border-radius:24px;padding:18px;display:flex;flex-direction:column;gap:8px;box-shadow:var(--shadow);min-width:0;overflow:hidden}
+.mcard .artbox{background:var(--paper2);border-radius:16px;display:grid;place-items:center;padding:6px}
+.mcard .artbox svg{width:100%;max-width:260px;height:180px}
+.mcard .mhead{display:flex;align-items:center;gap:10px}
+.mnum{width:40px;height:40px;border-radius:50%;background:var(--ai);color:var(--ai-ink);display:grid;place-items:center;font-family:var(--f-display);font-size:22px;flex:none}
+.mcard h3{font-size:28px;line-height:1.2}
+.mcard h3 small{font-family:var(--f-body);font-size:15px;color:var(--muted);font-weight:400}
+.goal{margin:0;font-weight:700;font-size:19px}
+.tip{margin:0;color:var(--muted);font-size:17px;background:var(--paper);border-radius:12px;padding:8px 12px}
+.bonus{position:absolute;top:14px;right:-34px;transform:rotate(35deg);background:var(--gold);color:#3a2a00;font-family:var(--f-display);padding:2px 40px;font-size:16px}
+.stars{color:var(--gold);font-size:20px;letter-spacing:2px}
+.mcard .check{margin-top:auto;width:100%;font-size:24px}
+.mcard.done{border-color:var(--ok);background:var(--okbg)}
+.mcard.done .check{background:var(--ok);color:#fff}
+.stamp{position:absolute;top:70px;right:22px;width:96px;height:96px;border:5px solid var(--shu);border-radius:50%;color:var(--shu);display:grid;place-items:center;
+  font-family:var(--f-display);font-size:28px;transform:rotate(-14deg);background:rgba(255,255,255,.55);animation:stampIn .35s ease-out;pointer-events:none}
+@keyframes stampIn{from{transform:rotate(-14deg) scale(2);opacity:0}to{transform:rotate(-14deg) scale(1);opacity:1}}
+
+/* ---------- 대전 설정 ---------- */
+.step{background:var(--card);border:3px solid var(--line);border-radius:24px;padding:20px;display:flex;flex-direction:column;gap:14px}
+.step h2{font-size:28px;display:flex;align-items:center;gap:10px}
+.step h2 .mnum{width:36px;height:36px;font-size:20px}
+.seg{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+.segbtn{border:3px solid var(--line);background:var(--paper);border-radius:18px;padding:14px;font-family:var(--f-display);font-size:26px;min-height:72px;display:flex;align-items:center;justify-content:center;gap:10px}
+.segbtn.on{border-color:var(--shu);background:var(--shu);color:#fff}
+.segbtn svg{width:64px;height:52px}
+.names{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+.namefield{display:flex;align-items:center;gap:10px;border:3px solid var(--line);border-radius:16px;padding:8px 12px;background:var(--paper)}
+.namefield .dot{width:28px;height:28px;border-radius:50%;flex:none}
+.namefield input{flex:1;min-width:0;border:0;background:transparent;font:inherit;font-size:22px;color:var(--ink);padding:6px 0}
+.rules{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin:0;padding:0;list-style:none}
+.rules li{background:var(--paper);border-radius:14px;padding:12px 14px;font-size:18px}
+.rules b{font-family:var(--f-display);font-weight:400;font-size:22px;display:block}
+
+/* ---------- 대전 경기 ---------- */
+.battlebar{display:flex;align-items:center;gap:14px;flex-wrap:wrap;background:var(--card);border:3px solid var(--line);border-radius:22px;padding:12px 16px;position:sticky;top:calc(env(safe-area-inset-top,0px) + 66px);z-index:15;box-shadow:var(--shadow)}
+.battlebar .gname{font-family:var(--f-display);font-size:26px}
+.teacher{background:var(--ai);color:var(--ai-ink);border-radius:999px;padding:4px 14px;font-weight:700;font-size:16px}
+.timer{font-family:var(--f-display);font-size:52px;line-height:1;font-variant-numeric:tabular-nums;min-width:140px;text-align:center;padding:4px 14px;border-radius:16px;background:var(--paper)}
+.timer.low{color:#fff;background:var(--warn);animation:pulse 1s infinite}
+@keyframes pulse{50%{transform:scale(1.06)}}
+.battlebar .sp{flex:1}
+.arena{display:grid;gap:14px;margin-top:16px}
+.arena.n2{grid-template-columns:repeat(2,minmax(0,1fr))}
+.arena.n3{grid-template-columns:repeat(3,minmax(0,1fr))}
+.arena.n4{grid-template-columns:repeat(4,minmax(0,1fr))}
+@media (max-width:1300px){.arena.n4{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:900px){.arena.n3{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:640px){.arena.n2,.arena.n3,.arena.n4{grid-template-columns:1fr}}
+.panel{position:relative;border-radius:22px;border:4px solid var(--pc);background:var(--pbg);padding:12px;display:flex;flex-direction:column;gap:10px;min-width:0}
+.panel .phead{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.panel .pname{font-family:var(--f-display);font-size:30px;color:var(--pc);line-height:1.1;min-width:0;overflow-wrap:anywhere}
+.panel .crown{font-size:30px;animation:bob 1.2s ease-in-out infinite}
+@keyframes bob{50%{transform:translateY(-4px)}}
+.panel .pstars{margin-left:auto;font-family:var(--f-display);font-size:28px;white-space:nowrap}
+.panel .progress i{background:var(--pc)}
+.bcard{display:grid;grid-template-columns:86px minmax(0,1fr) 48px;align-items:center;gap:10px;text-align:left;width:100%;border:3px solid var(--line);background:var(--card);border-radius:16px;padding:8px}
+.bcard:hover{border-color:var(--pc)}
+.bcard .bart{background:var(--paper2);border-radius:12px;display:grid;place-items:center;height:72px}
+.bcard .bart svg{width:84px;height:68px}
+.bcard .btext{display:flex;flex-direction:column;min-width:0}
+.bcard .btext b{font-family:var(--f-display);font-weight:400;font-size:22px;line-height:1.2}
+.bcard .btext span{font-size:15px;color:var(--muted);line-height:1.35}
+.bcard .btext em{font-style:normal;color:var(--gold);font-size:15px;font-weight:700}
+.bcard .box{width:44px;height:44px;border-radius:12px;border:4px solid var(--line);display:grid;place-items:center;font-size:28px;color:#fff;background:var(--card)}
+.bcard.done{border-color:var(--ok);background:var(--okbg)}
+.bcard.done .box{background:var(--ok);border-color:var(--ok)}
+.panel .allclear{position:absolute;inset:auto 12px 12px auto;pointer-events:none}
+.complete-banner{text-align:center;font-family:var(--f-display);font-size:24px;color:#fff;background:var(--pc);border-radius:14px;padding:6px}
+.locked .bcard{opacity:.75}
+
+/* ---------- 결과 ---------- */
+.podium{display:flex;justify-content:center;align-items:flex-end;gap:12px;flex-wrap:wrap}
+.pod{flex:1 1 180px;max-width:260px;display:flex;flex-direction:column;align-items:center;gap:6px;min-width:0}
+.pod .who{font-family:var(--f-display);font-size:28px;color:var(--pc);text-align:center;overflow-wrap:anywhere}
+.pod .ttl{font-size:17px;color:var(--muted);text-align:center}
+.pod .block{width:100%;border-radius:18px 18px 6px 6px;background:var(--pc);color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding-top:10px;font-family:var(--f-display)}
+.pod .block .medal{font-size:46px;line-height:1}
+.pod .block .st{font-size:24px}
+.restable{width:100%;border-collapse:collapse;background:var(--card);border-radius:18px;overflow:hidden;font-size:19px}
+.restable th,.restable td{padding:12px 14px;border-bottom:2px solid var(--line);text-align:left}
+.restable th{background:var(--paper2);font-family:var(--f-display);font-weight:400;font-size:20px}
+.restable td.num{font-variant-numeric:tabular-nums}
+.tablewrap{overflow-x:auto;border-radius:18px;border:3px solid var(--line)}
+
+/* ---------- 모달·토스트·꽃가루 ---------- */
+.overlay{position:fixed;inset:0;z-index:50;background:rgba(20,14,8,.55);display:grid;place-items:center;
+  padding-block:16px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.modal{background:var(--card);border-radius:26px;padding:24px;max-width:520px;width:100%;display:flex;flex-direction:column;gap:14px;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,.3);animation:pop .2s ease-out}
+@keyframes pop{from{transform:scale(.9);opacity:0}}
+.modal .micon{font-size:54px;line-height:1}
+.modal h2{font-size:32px}
+.modal p{margin:0;font-size:20px}
+.modal .artbox{background:var(--paper2);border-radius:16px;display:grid;place-items:center}
+.modal .artbox svg{width:200px;height:150px}
+.modal .btnrow{justify-content:center}
+.modal .btnrow .btn{flex:1 1 140px}
+.who-chip{display:inline-block;color:#fff;border-radius:999px;padding:2px 14px;font-family:var(--f-display);font-size:24px}
+.bigmsg{font-family:var(--f-display);font-size:clamp(48px,10vw,110px);color:#fff;text-shadow:0 6px 0 var(--shu);animation:pop .3s ease-out;text-align:center}
+.toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--paper);padding:14px 24px;border-radius:16px;font-size:20px;font-weight:700;z-index:60;max-width:calc(100% - 32px);text-align:center;animation:pop .2s}
+.confetti{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:70}
+.confetti i{position:absolute;top:-24px;width:11px;height:17px;border-radius:2px;animation:fall linear forwards}
+@keyframes fall{to{transform:translateY(112vh) rotate(760deg)}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+@media (max-width:640px){.timer{font-size:40px;min-width:110px}.mcard h3{font-size:24px}.bcard{grid-template-columns:70px minmax(0,1fr) 44px}.bcard .bart svg{width:68px}}
+</style>
+
+</head>
+<body>
+<header class="topbar">
+  <button class="brand" id="brandBtn" type="button"><span class="hanko">遊</span>일본 놀이 미션</button>
+  <span class="sp"></span>
+  <button class="tbtn" id="soundBtn" type="button">🔊 소리 켜짐</button>
+  <button class="tbtn" id="homeBtn" type="button">🏠 처음으로</button>
+</header>
+<main id="app"></main>
+
+<script>
+(function(){
+"use strict";
+/* ================= 그림 (SVG) ================= */
+const WOOD="#eab676", WOOD_D="#c98a45", STK="#7a4b1e";
+const BC=["#8b5cf6","#22a55b","#f5c518","#2f7de1","#e04848"]; // 아래 → 위
+const sparkle=(x,y,r)=>`<path d="M${x} ${y-r}Q${x} ${y} ${x+r} ${y}Q${x} ${y} ${x} ${y+r}Q${x} ${y} ${x-r} ${y}Q${x} ${y} ${x} ${y-r}Z" fill="#ffc928" stroke="#c98a00" stroke-width="1"/>`;
+const cupUp=(cx,y,w)=>{const h=w*.28;return `<path d="M${cx-w/2} ${y-h}L${cx+w/2} ${y-h}Q${cx+w/2-3} ${y+3} ${cx} ${y+3}Q${cx-w/2+3} ${y+3} ${cx-w/2} ${y-h}Z" fill="${WOOD_D}" stroke="${STK}" stroke-width="2.5" stroke-linejoin="round"/>`};
+const cupDown=(cx,y,w)=>{const h=w*.28;return `<path d="M${cx-w/2} ${y+h}L${cx+w/2} ${y+h}Q${cx+w/2-3} ${y-3} ${cx} ${y-3}Q${cx-w/2+3} ${y-3} ${cx-w/2} ${y+h}Z" fill="${WOOD_D}" stroke="${STK}" stroke-width="2.5" stroke-linejoin="round"/>`};
+const ball=(cx,cy,r=22,hole)=>`<circle cx="${cx}" cy="${cy}" r="${r}" fill="#e23d3d" stroke="#9b1c1c" stroke-width="2.5"/>
+  <ellipse cx="${cx-r*.35}" cy="${cy-r*.4}" rx="${r*.32}" ry="${r*.18}" fill="#fff" opacity=".7"/>${hole||""}`;
+const label=(x,y,t,anchor="start")=>`<text x="${x}" y="${y}" font-family="Jua, sans-serif" font-size="15" fill="#7a4b1e" text-anchor="${anchor}">${t}</text>`;
+
+function kSide(top){
+  const big=top==="big", tw=big?64:44, bw=big?44:64, th=tw*.28, by=84-th-12;
+  return `<svg viewBox="0 0 240 200" aria-hidden="true">
+  <ellipse cx="104" cy="${by+4}" rx="${tw/2+22}" ry="38" fill="var(--glow)"/>
+  <path d="M124 ${by+10}C170 ${by+36} 168 118 113 128" stroke="#6b5a48" stroke-width="2" fill="none"/>
+  <rect x="96" y="84" width="16" height="90" rx="5" fill="${WOOD}" stroke="${STK}" stroke-width="2.5"/>
+  <rect x="40" y="120" width="130" height="18" rx="6" fill="${WOOD}" stroke="${STK}" stroke-width="2.5"/>
+  <polygon points="170,121 170,137 210,129" fill="${WOOD}" stroke="${STK}" stroke-width="2.5" stroke-linejoin="round"/>
+  <rect x="28" y="111" width="14" height="36" rx="4" fill="${WOOD_D}" stroke="${STK}" stroke-width="2.5"/>
+  ${ball(104,by)}
+  ${cupUp(104,84,tw)}${cupDown(104,174,bw)}
+  <path d="M86 ${by-32}q18-8 36 0M92 ${by-42}q12-6 24 0" stroke="#9b8a76" stroke-width="3" fill="none" stroke-linecap="round"/>
+  ${sparkle(54,36,9)}${sparkle(160,28,7)}
+  ${label(10,78,(big?"큰":"작은")+" 접시 ▶")}
+  </svg>`;
+}
+function kSpike(){
+  return `<svg viewBox="0 0 240 200" aria-hidden="true">
+  <circle cx="120" cy="54" r="26" fill="var(--glow)"/>
+  <path d="M100 34C52 64 58 112 96 126" stroke="#6b5a48" stroke-width="2" fill="none"/>
+  <rect x="111" y="88" width="18" height="92" rx="5" fill="${WOOD}" stroke="${STK}" stroke-width="2.5"/>
+  <polygon points="111,90 129,90 120,52" fill="${WOOD}" stroke="${STK}" stroke-width="2.5" stroke-linejoin="round"/>
+  <rect x="72" y="120" width="96" height="18" rx="6" fill="${WOOD}" stroke="${STK}" stroke-width="2.5"/>
+  <path d="M60 110L60 148Q76 144 76 129Q76 114 60 110Z" fill="${WOOD_D}" stroke="${STK}" stroke-width="2.5" stroke-linejoin="round"/>
+  <path d="M180 116L180 142Q166 139 166 129Q166 119 180 116Z" fill="${WOOD_D}" stroke="${STK}" stroke-width="2.5" stroke-linejoin="round"/>
+  <rect x="102" y="178" width="36" height="12" rx="4" fill="${WOOD_D}" stroke="${STK}" stroke-width="2.5"/>
+  ${ball(120,24,21,`<ellipse cx="120" cy="42" rx="7" ry="3.5" fill="#3a0d0d"/>`)}
+  <path d="M168 18V62" stroke="var(--shu)" stroke-width="4" stroke-dasharray="6 5" stroke-linecap="round"/>
+  <path d="M159 54L168 66L177 54" fill="none" stroke="var(--shu)" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+  ${label(184,46,"쏙!")}
+  ${label(14,196,"뾰족한 끝에 꽂아요")}
+  ${sparkle(76,30,8)}
+  </svg>`;
+}
+const block=(x,y,w,h,c,extra="")=>`<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="5" fill="${c}" stroke="rgba(0,0,0,.4)" stroke-width="2" ${extra}/><rect x="${x+6}" y="${y+4}" width="${w-12}" height="3" rx="1.5" fill="#fff" opacity=".35"/>`;
+function head(cx,by,s=1){
+  const r=26*s;
+  return `<g><ellipse cx="${cx}" cy="${by-r}" rx="${r*1.08}" ry="${r}" fill="#d93030" stroke="#8f1515" stroke-width="2.5"/>
+  <ellipse cx="${cx}" cy="${by-r*1.18}" rx="${r*.66}" ry="${r*.54}" fill="#fff3e0" stroke="#8f1515" stroke-width="1.5"/>
+  <circle cx="${cx-r*.25}" cy="${by-r*1.2}" r="${r*.11}" fill="#222"/><circle cx="${cx+r*.25}" cy="${by-r*1.2}" r="${r*.11}" fill="#222"/>
+  <path d="M${cx-r*.48} ${by-r*1.46}q${r*.2} ${-r*.16} ${r*.38} 0M${cx+r*.1} ${by-r*1.46}q${r*.2} ${-r*.16} ${r*.38} 0" stroke="#222" stroke-width="${3*s}" fill="none" stroke-linecap="round"/>
+  <path d="M${cx-r*.14} ${by-r*.86}q${r*.14} ${r*.12} ${r*.28} 0" stroke="#8f1515" stroke-width="2" fill="none" stroke-linecap="round"/>
+  <ellipse cx="${cx}" cy="${by-r*.34}" rx="${r*.42}" ry="${r*.13}" fill="#f2b705"/></g>`;
+}
+function stack(cx,baseY,n,w=80,h=22,skipBottom=false){
+  let s="";for(let i=0;i<n;i++){if(skipBottom&&i===0)continue;s+=block(cx-w/2,baseY-(i+1)*h,w,h,BC[i%5])}
+  return s+head(cx,baseY-n*h,w/80);
+}
+const hammer=(x,y)=>`<rect x="${x-5}" y="${y-74}" width="10" height="62" rx="4" fill="${WOOD}" stroke="${STK}" stroke-width="2"/><rect x="${x-17}" y="${y-14}" width="34" height="28" rx="7" fill="${WOOD_D}" stroke="${STK}" stroke-width="2.5"/>`;
+const table=y=>`<rect x="0" y="${y}" width="240" height="12" rx="4" fill="#b98a58"/>`;
+const arrowR=(x,y)=>`<path d="M${x} ${y}h26" stroke="var(--ai)" stroke-width="6" stroke-linecap="round"/><path d="M${x+20} ${y-10}l12 10-12 10" fill="none" stroke="var(--ai)" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>`;
+
+function d1(){
+  return `<svg viewBox="0 0 240 200" aria-hidden="true">${table(184)}
+  ${stack(108,184,3,80,22,true)}
+  <g transform="translate(74,-6) rotate(14 108 173)">${block(68,162,80,22,BC[0])}</g>
+  <path d="M136 166h-18M140 178h-24" stroke="#9b8a76" stroke-width="3" stroke-linecap="round"/>
+  ${hammer(38,173)}
+  ${label(30,118,"탁!","middle")}
+  ${sparkle(222,140,7)}
+  </svg>`;
+}
+function dClear(n){
+  const h=n===5?18:22, w=n===5?64:66;
+  return `<svg viewBox="0 0 240 200" aria-hidden="true">${table(184)}
+  ${stack(54,184,n,w,h)}
+  ${arrowR(102,110)}
+  ${head(186,184,1)}
+  <g transform="rotate(-18 222 176)">${block(206,170,34,14,BC[1])}</g>
+  <g transform="rotate(10 150 178)">${block(136,172,30,12,BC[3])}</g>
+  ${sparkle(150,88,10)}${sparkle(222,96,8)}${sparkle(190,64,6)}
+  ${label(186,40,"착지!","middle")}
+  </svg>`;
+}
+function d4(){
+  return `<svg viewBox="0 0 240 200" aria-hidden="true">${table(184)}
+  ${stack(96,184,5,78,22)}
+  <rect x="52" y="114" width="88" height="30" rx="8" fill="none" stroke="#ffc928" stroke-width="5" stroke-dasharray="8 5"/>
+  ${hammer(28,129)}
+  <rect x="150" y="34" width="84" height="50" rx="14" fill="#fff" stroke="var(--ai)" stroke-width="3"/>
+  <path d="M164 84l-10 18 24-18" fill="#fff" stroke="var(--ai)" stroke-width="3" stroke-linejoin="round"/>
+  <rect x="160" y="86" width="20" height="4" fill="#fff"/>
+  <circle cx="172" cy="59" r="11" fill="${BC[2]}" stroke="rgba(0,0,0,.4)" stroke-width="2"/>
+  <text x="190" y="66" font-family="Jua, sans-serif" font-size="19" fill="#1f3a5f">이 색!</text>
+  <text x="160" y="140" font-family="Jua, sans-serif" font-size="34" fill="#e9a900">?</text>
+  </svg>`;
+}
+function kendamaHero(){return kSide("big")}
+const ART={kBig:()=>kSide("big"),kSmall:()=>kSide("small"),kSpike:kSpike,d1:d1,d2:()=>dClear(3),d3:()=>dClear(5),d4:d4};
+
+/* ================= 데이터 ================= */
+const GAMES={
+  kendama:{name:"켄다마",jp:"けん玉",icon:"kBig",missions:[
+    {id:"k1",title:"큰 접시 올리기",jp:"오자라",goal:"큰 접시에 공 올리기 3번",stars:1,tip:"무릎을 굽혔다 펴면서 공을 위로 슝! 내려올 때 무릎을 굽혀 살짝 받아요.",art:"kBig"},
+    {id:"k2",title:"작은 접시 올리기",jp:"코자라",goal:"작은 접시에 공 올리기 3번",stars:1,tip:"켄다마를 돌려 잡아 작은 접시가 위로 오게 해요. 큰 접시보다 천천히!",art:"kSmall"},
+    {id:"k3",title:"꽂기 도전",jp:"토메켄",goal:"공 구멍에 뾰족한 끝 꽂기 1번",stars:2,bonus:true,tip:"공 구멍이 아래를 보게 멈춘 다음, 공을 똑바로 끌어올려 쏙 꽂아요.",art:"kSpike"}]},
+  daruma:{name:"다루마오토시",jp:"だるま落とし",icon:"d3",missions:[
+    {id:"d1",title:"첫 블록 빼기",goal:"3단으로 쌓고 맨 아래 블록 1개 빼기",stars:1,tip:"망치를 블록 높이에 맞추고, 세게 말고 빠르게 톡! 쳐요.",art:"d1"},
+    {id:"d2",title:"3단 클리어",goal:"블록 3개를 모두 빼고 다루마 착지",stars:1,tip:"하나 뺄 때마다 탑이 흔들리지 않을 때까지 기다려요.",art:"d2"},
+    {id:"d3",title:"5단 클리어",goal:"블록 5개를 모두 빼고 다루마 착지",stars:1,tip:"아래 블록부터 차례차례! 망치는 항상 수평으로 쳐요.",art:"d3"},
+    {id:"d4",title:"색깔 맞히기",goal:"선생님이 부른 색 블록을 먼저 빼기",goalPractice:"내가 고른 색 블록을 먼저 빼기",stars:1,tip:"가운데 블록은 더 살살, 더 빠르게 쳐야 탑이 안 무너져요.",art:"d4"}]}
+};
+const PLAYER=[{c:"var(--p1)",bg:"var(--p1bg)",nm:"빨강"},{c:"var(--p2)",bg:"var(--p2bg)",nm:"파랑"},{c:"var(--p3)",bg:"var(--p3bg)",nm:"초록"},{c:"var(--p4)",bg:"var(--p4bg)",nm:"노랑"}];
+const BATTLE_MS=5*60*1000;
+const maxStars=g=>GAMES[g].missions.reduce((a,m)=>a+m.stars,0);
+const starsOf=(g,done)=>GAMES[g].missions.reduce((a,m)=>a+(done[m.id]!=null?m.stars:0),0);
+function titleOf(stars,max){
+  if(stars>=max) return "쇼군 👑";
+  if(stars>=2) return "사무라이 ⚔️";
+  if(stars>=1) return "꼬마 닌자 🥷";
+  return "도전자 🌱";
+}
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const fmt=ms=>{const t=Math.max(0,Math.ceil(ms/1000));return Math.floor(t/60)+":"+String(t%60).padStart(2,"0")};
+const fmtLong=ms=>{const t=Math.round(ms/1000),m=Math.floor(t/60),s=t%60;return (m?m+"분 ":"")+s+"초"};
+
+/* ================= 상태 ================= */
+const KEY="jpPlayMission.v1";
+function defaults(){return {muted:false,practice:{name:"",kendama:{},daruma:{}},setup:{game:"kendama",n:2,names:["","","",""]},battle:null}}
+let S=defaults();
+try{const raw=localStorage.getItem(KEY);if(raw){const o=JSON.parse(raw);S=Object.assign(defaults(),o);if(S.battle){S.battle.running=false}}}catch(e){}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
+
+/* ================= 소리 ================= */
+let AC=null;
+function tone(f,d,t=0,type="sine",v=.15){
+  if(S.muted)return;
+  try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();const o=AC.createOscillator(),g=AC.createGain();o.type=type;o.frequency.value=f;
+    const st=AC.currentTime+t;g.gain.setValueAtTime(v,st);g.gain.exponentialRampToValueAtTime(.001,st+d);o.connect(g).connect(AC.destination);o.start(st);o.stop(st+d+.02)}catch(e){}
+}
+const sfx={
+  ding(){tone(880,.15);tone(1320,.35,.12)},
+  undo(){tone(500,.12);tone(380,.2,.1)},
+  fanfare(){[523,659,784,1047].forEach((f,i)=>tone(f,.28,i*.14,"triangle",.18));tone(1047,.7,.6,"triangle",.16)},
+  tick(){tone(1000,.07,0,"square",.05)},
+  start(){tone(660,.12);tone(660,.12,.25);tone(990,.4,.5)},
+  buzzer(){tone(220,.7,0,"sawtooth",.12);tone(165,.7,.05,"sawtooth",.1)}
+};
+
+/* ================= 공통 UI ================= */
+const $app=document.getElementById("app");
+function toast(msg){document.querySelectorAll(".toast").forEach(t=>t.remove());const t=document.createElement("div");t.className="toast";t.textContent=msg;document.body.appendChild(t);setTimeout(()=>t.remove(),2200)}
+function confetti(n=110){
+  const box=document.createElement("div");box.className="confetti";
+  const cols=["#e04848","#2f7de1","#22a55b","#f5c518","#8b5cf6","#ff8fb1"];
+  for(let i=0;i<n;i++){const s=document.createElement("i");s.style.left=Math.random()*100+"%";s.style.background=cols[i%cols.length];
+    s.style.animationDuration=(2.2+Math.random()*1.8)+"s";s.style.animationDelay=(Math.random()*.7)+"s";s.style.transform="rotate("+(Math.random()*360)+"deg)";box.appendChild(s)}
+  document.body.appendChild(box);setTimeout(()=>box.remove(),5000);
+}
+function closeModal(){document.querySelectorAll(".overlay").forEach(o=>o.remove());document.removeEventListener("keydown",escKey)}
+function escKey(e){if(e.key==="Escape")closeModal()}
+function modal({icon="",title="",html="",buttons=[]}){
+  closeModal();
+  const ov=document.createElement("div");ov.className="overlay";
+  ov.innerHTML=`<div class="modal" role="dialog" aria-modal="true">${icon?`<div class="micon">${icon}</div>`:""}<h2>${title}</h2>${html}<div class="btnrow"></div></div>`;
+  const row=ov.querySelector(".btnrow");
+  buttons.forEach(b=>{const el=document.createElement("button");el.type="button";el.className="btn "+(b.cls||"");el.textContent=b.text;el.onclick=()=>{if(!b.keep)closeModal();b.on&&b.on()};row.appendChild(el)});
+  ov.addEventListener("click",e=>{if(e.target===ov)closeModal()});
+  document.addEventListener("keydown",escKey);
+  document.body.appendChild(ov);
+  const first=row.querySelector("button");first&&first.focus();
+}
+function bigMessage(text,ms=1800){const ov=document.createElement("div");ov.className="overlay";ov.innerHTML=`<div class="bigmsg">${text}</div>`;document.body.appendChild(ov);setTimeout(()=>ov.remove(),ms)}
+
+/* ================= 라우팅 ================= */
+const ROUTES=["home","practice","practice-kendama","practice-daruma","battle","battle-play","battle-result"];
+const fromHash=()=>{const h=location.hash.replace("#","");return ROUTES.includes(h)?h:"home"};
+let ROUTE=fromHash();
+function go(r){ROUTE=r;try{if(location.hash!=="#"+r)location.hash=r}catch(e){}render()}
+function current(){return ROUTE}
+window.addEventListener("hashchange",()=>{const r=fromHash();if(r!==ROUTE){ROUTE=r;render()}});
+document.getElementById("homeBtn").onclick=()=>{if(S.battle&&S.battle.running){pauseTimer()}go("home")};
+document.getElementById("brandBtn").onclick=()=>{if(S.battle&&S.battle.running){pauseTimer()}go("home")};
+const soundBtn=document.getElementById("soundBtn");
+function paintSound(){soundBtn.textContent=S.muted?"🔇 소리 꺼짐":"🔊 소리 켜짐"}
+soundBtn.onclick=()=>{S.muted=!S.muted;save();paintSound();if(!S.muted)sfx.ding()};
+paintSound();
+
+function render(){
+  const r=current();
+  if(r!=="battle-play"&&S.battle&&S.battle.running)pauseTimer();
+  closeModal();
+  window.scrollTo(0,0);
+  if(r==="home")return viewHome();
+  if(r==="practice")return viewPracticeSelect();
+  if(r==="practice-kendama")return viewPractice("kendama");
+  if(r==="practice-daruma")return viewPractice("daruma");
+  if(r==="battle")return viewSetup();
+  if(r==="battle-play")return S.battle?viewBattle():go("battle");
+  if(r==="battle-result")return S.battle?viewResult():go("battle");
+}
+
+/* ================= 홈 ================= */
+function viewHome(){
+  $app.innerHTML=`<div class="wrap">
+    <section class="hero">
+      <div class="arts">${kSide("big")}${dClear(5)}</div>
+      <h1>일본 놀이 미션 대전</h1>
+      <p>켄다마와 다루마오토시로 미션을 깨고 별을 모아요!</p>
+    </section>
+    <div class="choice">
+      <button class="bigchoice" type="button" data-go="practice">
+        <span class="ico">🧑</span><h2>연습하기</h2>
+        <ul><li>혼자서 천천히 연습해요</li><li>성공하면 <b>내가 직접</b> 체크해요</li><li>시간 제한이 없어요</li></ul>
+        <span class="go">연습 시작 ▶</span>
+      </button>
+      <button class="bigchoice battle" type="button" data-go="battle">
+        <span class="ico">⚔️</span><h2>대전하기</h2>
+        <ul><li>2명 · 3명 · 4명이 겨뤄요</li><li><b>선생님</b>이 확인하고 체크해요</li><li>제한 시간 <b>5분</b></li></ul>
+        <span class="go">대전 준비 ▶</span>
+      </button>
+    </div>
+  </div>`;
+  $app.querySelectorAll("[data-go]").forEach(b=>b.onclick=()=>go(b.dataset.go));
+}
+
+/* ================= 연습 ================= */
+function viewPracticeSelect(){
+  $app.innerHTML=`<div class="wrap">
+    <div class="pagehead"><div><span class="tag shu">연습하기</span><h1>어떤 놀이를 연습할까요?</h1><p class="sub">혼자 연습하고, 성공하면 직접 체크해요.</p></div></div>
+    <div class="choice">
+      ${["kendama","daruma"].map(g=>{const G=GAMES[g],st=starsOf(g,S.practice[g]),mx=maxStars(g);return `
+      <button class="bigchoice gamecard" type="button" data-g="${g}">
+        ${ART[G.icon]()}
+        <h2>${G.name}</h2><small>${G.jp} · 미션 ${G.missions.length}개</small>
+        <span class="stars">${"★".repeat(st)}${"☆".repeat(mx-st)}</span>
+        <span class="go">${st?"이어서 연습":"연습 시작"} ▶</span>
+      </button>`}).join("")}
+    </div>
+  </div>`;
+  $app.querySelectorAll("[data-g]").forEach(b=>b.onclick=()=>go("practice-"+b.dataset.g));
+}
+function viewPractice(g){
+  const G=GAMES[g],done=S.practice[g],st=starsOf(g,done),mx=maxStars(g);
+  $app.innerHTML=`<div class="wrap">
+    <div class="pagehead">
+      <div><span class="tag shu">연습하기</span><h1>${G.name} 연습</h1><p class="sub">그림을 보고 따라 해 보세요. 성공하면 아래 버튼을 눌러요!</p></div>
+      <div class="btnrow"><button class="btn" type="button" id="otherBtn">다른 놀이</button><button class="btn" type="button" id="resetBtn">↺ 처음부터</button></div>
+    </div>
+    <div class="starbox"><span class="num">⭐ ${st} / ${mx}</span><div class="progress"><i style="width:${st/mx*100}%"></i></div><span class="tag ai">${titleOf(st,mx)}</span></div>
+    <div class="mgrid">${G.missions.map((m,i)=>{const d=done[m.id]!=null;return `
+      <article class="mcard ${d?"done":""}">
+        ${m.bonus?'<span class="bonus">보너스</span>':""}
+        <div class="artbox">${ART[m.art]()}</div>
+        <div class="mhead"><span class="mnum">${i+1}</span><h3>${m.title}${m.jp?` <small>${m.jp}</small>`:""}</h3></div>
+        <p class="goal">🎯 ${m.goalPractice||m.goal}</p>
+        <span class="stars">${"★".repeat(m.stars)}</span>
+        <p class="tip">💡 ${m.tip}</p>
+        <button class="btn check ${d?"":"shu"}" type="button" data-m="${m.id}">${d?"✅ 성공했어요!":"성공했어요! 체크하기"}</button>
+        ${d?'<div class="stamp">성공!</div>':""}
+      </article>`}).join("")}</div>
+  </div>`;
+  document.getElementById("otherBtn").onclick=()=>go("practice");
+  document.getElementById("resetBtn").onclick=()=>modal({icon:"↺",title:"처음부터 다시 할까요?",html:"<p>체크한 미션이 모두 지워져요.</p>",buttons:[{text:"다시 하기",cls:"shu",on:()=>{S.practice[g]={};save();viewPractice(g)}},{text:"아니요"}]});
+  $app.querySelectorAll("[data-m]").forEach(b=>b.onclick=()=>{
+    const id=b.dataset.m,m=G.missions.find(x=>x.id===id);
+    if(done[id]!=null){
+      modal({icon:"🤔",title:"체크를 취소할까요?",html:`<p><b>${m.title}</b> 미션의 체크가 지워져요.</p>`,buttons:[{text:"취소할래요",cls:"shu",on:()=>{delete done[id];save();sfx.undo();viewPractice(g)}},{text:"그대로 둘래요"}]});
+      return;
+    }
+    done[id]=Date.now();save();sfx.ding();viewPractice(g);
+    if(starsOf(g,done)===mx){
+      setTimeout(()=>{sfx.fanfare();confetti();
+        modal({icon:"🎉",title:"모든 미션 성공!",html:`<p>${G.name} 칭호를 받았어요</p><p style="font-family:var(--f-display);font-size:40px;color:var(--shu)">${titleOf(mx,mx)}</p><p>이제 친구와 대전해 볼까요?</p>`,
+          buttons:[{text:"다른 놀이 연습",cls:"shu",on:()=>go("practice")},{text:"대전하러 가기",cls:"ai",on:()=>go("battle")}]})},350);
+    }
+  });
+}
+
+/* ================= 대전 설정 ================= */
+function viewSetup(){
+  const su=S.setup;
+  $app.innerHTML=`<div class="wrap">
+    <div class="pagehead"><div><span class="tag ai">대전하기</span><h1>대전 준비</h1><p class="sub">선생님이 놀이와 인원을 고르고 선수 이름을 적어 주세요.</p></div></div>
+    <section class="step"><h2><span class="mnum">1</span>놀이 고르기</h2>
+      <div class="seg">${["kendama","daruma"].map(g=>`<button type="button" class="segbtn ${su.game===g?"on":""}" data-game="${g}">${ART[GAMES[g].icon]()}${GAMES[g].name}</button>`).join("")}</div>
+    </section>
+    <section class="step"><h2><span class="mnum">2</span>몇 명이 겨룰까요?</h2>
+      <div class="seg">${[2,3,4].map(n=>`<button type="button" class="segbtn ${su.n===n?"on":""}" data-n="${n}">${n}명</button>`).join("")}</div>
+    </section>
+    <section class="step"><h2><span class="mnum">3</span>선수 이름</h2>
+      <div class="names">${Array.from({length:su.n},(_,i)=>`<label class="namefield" for="pname${i}"><span class="dot" style="background:${PLAYER[i].c}"></span>
+        <input id="pname${i}" data-i="${i}" maxlength="8" placeholder="${i+1}번 선수 (${PLAYER[i].nm})" value="${esc(su.names[i]||"")}" autocomplete="off"></label>`).join("")}</div>
+    </section>
+    <section class="step"><h2>📜 대전 규칙</h2>
+      <ul class="rules">
+        <li><b>⏱ 5분 대결</b>시작 버튼을 누르면 5분이 흘러가요.</li>
+        <li><b>👩‍🏫 선생님 체크</b>선생님이 성공을 확인하고 체크해요.</li>
+        <li><b>⭐ 별 많이 모으기</b>별을 가장 많이 모은 선수가 1등!</li>
+        <li><b>⚖️ 별이 같으면</b>그 별을 먼저 모은 선수가 이겨요.</li>
+      </ul>
+    </section>
+    <div class="btnrow" style="justify-content:flex-end">
+      ${S.battle&&!S.battle.ended&&S.battle.started?`<button class="btn" type="button" id="resumeBtn">진행 중인 대전으로</button>`:""}
+      <button class="btn ai" type="button" id="readyBtn">대전 화면으로 ▶</button>
+    </div>
+  </div>`;
+  $app.querySelectorAll("[data-game]").forEach(b=>b.onclick=()=>{su.game=b.dataset.game;save();viewSetup()});
+  $app.querySelectorAll("[data-n]").forEach(b=>b.onclick=()=>{su.n=+b.dataset.n;save();viewSetup()});
+  $app.querySelectorAll(".namefield input").forEach(inp=>inp.oninput=()=>{su.names[+inp.dataset.i]=inp.value.trim();save()});
+  const rb=document.getElementById("resumeBtn");if(rb)rb.onclick=()=>go("battle-play");
+  document.getElementById("readyBtn").onclick=()=>{newBattle();go("battle-play")};
+}
+function newBattle(){
+  const su=S.setup;stopInterval();
+  S.battle={game:su.game,n:su.n,remain:BATTLE_MS,running:false,started:false,ended:false,
+    players:Array.from({length:su.n},(_,i)=>({name:su.names[i]||`${i+1}번 선수`,done:{}}))};
+  save();
+}
+
+/* ================= 타이머 ================= */
+let iv=null,lastTs=0,lastSec=null,saveCount=0;
+function stopInterval(){if(iv){clearInterval(iv);iv=null}}
+function startTimer(){
+  const b=S.battle;if(!b||b.ended)return;
+  if(!b.started){sfx.start();bigMessage("시작!",1100)}
+  b.started=true;b.running=true;lastTs=performance.now();stopInterval();iv=setInterval(tick,200);save();paintBar();
+}
+function pauseTimer(){const b=S.battle;if(!b)return;stopInterval();b.running=false;save();paintBar()}
+function tick(){
+  const b=S.battle;if(!b||!b.running)return stopInterval();
+  const now=performance.now();b.remain-=now-lastTs;lastTs=now;
+  const sec=Math.ceil(b.remain/1000);
+  if(sec!==lastSec){lastSec=sec;if(sec<=10&&sec>0)sfx.tick();if(++saveCount%5===0)save()}
+  if(b.remain<=0){b.remain=0;finishBattle("time");return}
+  paintTimer();
+}
+function elapsed(){return BATTLE_MS-S.battle.remain}
+function finishBattle(reason){
+  const b=S.battle;stopInterval();b.running=false;b.ended=true;save();
+  if(current()!=="battle-play"){return}
+  paintTimer();paintBar();
+  if(reason==="time"){sfx.buzzer();bigMessage("⏰ 시간 끝!",2000)}
+  else if(reason==="all"){sfx.fanfare();bigMessage("🎉 모두 완료!",2000)}
+  setTimeout(()=>{if(current()==="battle-play")go("battle-result")},reason==="manual"?0:2100);
+}
+
+/* ================= 대전 화면 ================= */
+function ranking(b){
+  return b.players.map((p,i)=>{const vals=Object.values(p.done);return {i,name:p.name,stars:starsOf(b.game,p.done),last:vals.length?Math.max(...vals):Infinity,count:vals.length}})
+    .sort((a,c)=>c.stars-a.stars||a.last-c.last||a.i-c.i);
+}
+function viewBattle(){
+  const b=S.battle,G=GAMES[b.game];
+  $app.innerHTML=`<div class="battlebar" id="bar"></div><div class="arena n${b.n} ${b.started&&!b.ended?"":"locked"}" id="arena"></div>`;
+  paintBar();paintArena();
+  if(b.running){lastTs=performance.now();stopInterval();iv=setInterval(tick,200)}
+}
+function paintTimer(){
+  const t=document.getElementById("timer");if(!t)return;
+  t.textContent=fmt(S.battle.remain);t.classList.toggle("low",S.battle.remain<=30000&&S.battle.remain>0);
+}
+function paintBar(){
+  const bar=document.getElementById("bar");if(!bar)return;const b=S.battle,G=GAMES[b.game];
+  let main;
+  if(b.ended)main=`<button class="btn ai" type="button" id="resultBtn">🏁 결과 보기</button>`;
+  else if(!b.started)main=`<button class="btn ok" type="button" id="playBtn">▶ 시작</button>`;
+  else if(b.running)main=`<button class="btn" type="button" id="pauseBtn">⏸ 잠깐 멈춤</button>`;
+  else main=`<button class="btn ok" type="button" id="playBtn">▶ 계속</button>`;
+  bar.innerHTML=`<div><div class="gname">${G.name} 대전</div><span class="teacher">👩‍🏫 선생님 체크</span></div>
+    <span class="sp"></span>
+    <div class="timer" id="timer" aria-live="off">${fmt(b.remain)}</div>
+    ${main}
+    ${b.started&&!b.ended?`<button class="btn" type="button" id="endBtn">🏁 끝내기</button>`:""}
+    <button class="btn" type="button" id="helpBtn">📖 미션 보기</button>
+    <button class="btn" type="button" id="restartBtn">↺ 다시</button>`;
+  paintTimer();
+  const on=(id,fn)=>{const el=document.getElementById(id);if(el)el.onclick=fn};
+  on("playBtn",()=>{startTimer();paintArena()});
+  on("pauseBtn",pauseTimer);
+  on("resultBtn",()=>go("battle-result"));
+  on("endBtn",()=>{const was=b.running;pauseTimer();modal({icon:"🏁",title:"대전을 끝낼까요?",html:"<p>지금 별 개수로 순위를 정해요.</p>",buttons:[{text:"끝내기",cls:"shu",on:()=>finishBattle("manual")},{text:"계속하기",on:()=>{if(was)startTimer()}}]})});
+  on("helpBtn",()=>{const was=b.running;pauseTimer();showMissionGuide(b.game,()=>{if(was)startTimer()})});
+  on("restartBtn",()=>{const was=b.running;pauseTimer();modal({icon:"↺",title:"처음부터 다시 할까요?",html:"<p>같은 선수로 새 대전을 시작해요. 체크와 시간이 모두 처음으로 돌아가요.</p>",
+    buttons:[{text:"같은 선수로 다시",cls:"shu",on:()=>{restartSame();viewBattle()}},{text:"대전 설정 바꾸기",on:()=>go("battle")},{text:"닫기",on:()=>{if(was)startTimer()}}]})});
+}
+function restartSame(){const b=S.battle;stopInterval();b.remain=BATTLE_MS;b.running=false;b.started=false;b.ended=false;b.players.forEach(p=>p.done={});save()}
+function showMissionGuide(g,after){
+  const G=GAMES[g];let i=0;
+  const show=()=>{const m=G.missions[i];
+    modal({icon:"",title:`${i+1}. ${m.title}${m.bonus?" (보너스)":""}`,html:`<div class="artbox">${ART[m.art]()}</div><p><b>🎯 ${m.goal}</b></p><p style="color:var(--muted)">💡 ${m.tip}</p><p class="stars">${"★".repeat(m.stars)}</p>`,
+      buttons:[...(i>0?[{text:"◀ 이전",keep:true,on:()=>{i--;show()}}]:[]),
+        i<G.missions.length-1?{text:"다음 ▶",cls:"ai",keep:true,on:()=>{i++;show()}}:{text:"알겠어요!",cls:"shu",on:after}]});
+  };show();
+}
+function paintArena(){
+  const ar=document.getElementById("arena");if(!ar)return;const b=S.battle,G=GAMES[b.game],mx=maxStars(b.game);
+  ar.className=`arena n${b.n} ${b.started&&!b.ended?"":"locked"}`;
+  const rk=ranking(b),leader=rk[0].stars>0?rk[0].i:-1;
+  ar.innerHTML=b.players.map((p,pi)=>{const st=starsOf(b.game,p.done),P=PLAYER[pi],all=st===mx;return `
+    <section class="panel" style="--pc:${P.c};--pbg:${P.bg}">
+      <div class="phead"><span class="pname">${esc(p.name)}</span>${leader===pi?'<span class="crown" title="지금 1등">👑</span>':""}<span class="pstars">⭐ ${st}/${mx}</span></div>
+      <div class="progress"><i style="width:${st/mx*100}%"></i></div>
+      ${all?'<div class="complete-banner">🎉 미션 완료!</div>':""}
+      ${G.missions.map((m,mi)=>{const d=p.done[m.id]!=null;return `
+        <button type="button" class="bcard ${d?"done":""}" data-p="${pi}" data-m="${m.id}" aria-label="${esc(p.name)} ${m.title} ${d?"성공":"미완료"}">
+          <span class="bart">${ART[m.art]()}</span>
+          <span class="btext"><b>${mi+1}. ${m.title}</b>${m.bonus?"<em>★★ 보너스</em>":""}<span>${m.goal}</span></span>
+          <span class="box">${d?"✓":""}</span>
+        </button>`}).join("")}
+    </section>`}).join("");
+  ar.querySelectorAll(".bcard").forEach(c=>c.onclick=()=>onBattleCheck(+c.dataset.p,c.dataset.m));
+}
+function onBattleCheck(pi,mid){
+  const b=S.battle,G=GAMES[b.game],p=b.players[pi],m=G.missions.find(x=>x.id===mid),P=PLAYER[pi];
+  if(b.ended){toast("대전이 끝났어요. 결과를 확인해 주세요.");return}
+  if(!b.started){toast("먼저 ▶ 시작 버튼을 눌러 주세요!");return}
+  const chip=`<span class="who-chip" style="background:${P.c}">${esc(p.name)}</span>`;
+  if(p.done[mid]!=null){
+    modal({icon:"↩️",title:"체크를 취소할까요?",html:`<p>${chip}</p><p><b>${m.title}</b> 미션 체크를 지워요.</p>`,
+      buttons:[{text:"체크 취소",cls:"shu",on:()=>{delete p.done[mid];save();sfx.undo();paintArena()}},{text:"그대로 두기"}]});
+    return;
+  }
+  modal({icon:"👩‍🏫",title:"선생님 확인",html:`<p>${chip}</p><div class="artbox">${ART[m.art]()}</div><p><b>${m.title}</b><br>${m.goal}</p><p style="color:var(--muted)">성공한 것을 확인했나요?</p>`,
+    buttons:[{text:"⭕ 성공 인정!",cls:"ok",on:()=>{
+      if(S.battle.ended)return;
+      p.done[mid]=Math.round(elapsed());save();sfx.ding();paintArena();
+      const mx=maxStars(b.game);
+      if(starsOf(b.game,p.done)===mx){confetti(70);toast(`${p.name} 선수 미션 완료! 🎉`)}
+      if(b.players.every(q=>starsOf(b.game,q.done)===mx))finishBattle("all");
+    }},{text:"취소"}]});
+}
+
+/* ================= 결과 ================= */
+function viewResult(){
+  const b=S.battle,G=GAMES[b.game],mx=maxStars(b.game),rk=ranking(b);
+  // 공동 순위: 별 수와 시간이 모두 같을 때
+  let rank=0;rk.forEach((r,k)=>{if(k===0||r.stars!==rk[k-1].stars||r.last!==rk[k-1].last)rank=k+1;r.rank=rank});
+  const medal=n=>["🥇","🥈","🥉","🎖️"][n-1]||"🎖️";
+  const order=rk.length>=3?[rk[1],rk[0],rk[2],...rk.slice(3)]:rk;
+  const hgt=r=>({1:190,2:150,3:120}[r.rank]||100);
+  $app.innerHTML=`<div class="wrap">
+    <div class="pagehead"><div><span class="tag ai">대전 결과</span><h1>${G.name} 대전 결과</h1><p class="sub">${b.remain<=0?"5분이 모두 지났어요.":"사용한 시간 "+fmtLong(BATTLE_MS-b.remain)}</p></div></div>
+    <div class="podium">${order.map(r=>{const P=PLAYER[r.i];return `
+      <div class="pod" style="--pc:${P.c}">
+        <div class="who">${esc(r.name)}</div><div class="ttl">${titleOf(r.stars,mx)}</div>
+        <div class="block" style="height:${hgt(r)}px"><span class="medal">${medal(r.rank)}</span><span class="st">${r.rank}등 · ⭐${r.stars}</span></div>
+      </div>`}).join("")}</div>
+    <div class="tablewrap"><table class="restable"><thead><tr><th>순위</th><th>선수</th><th>별</th><th>성공한 미션</th><th>마지막 별 시간</th></tr></thead><tbody>
+      ${rk.map(r=>`<tr><td>${medal(r.rank)} ${r.rank}등</td><td style="color:${PLAYER[r.i].c};font-weight:900">${esc(r.name)}</td><td class="num">⭐ ${r.stars} / ${mx}</td>
+        <td class="num">${r.count} / ${G.missions.length}</td><td class="num">${r.last===Infinity?"-":fmtLong(r.last)}</td></tr>`).join("")}
+    </tbody></table></div>
+    <div class="btnrow" style="justify-content:center">
+      <button class="btn shu" type="button" id="againBtn">↺ 같은 선수로 다시</button>
+      <button class="btn ai" type="button" id="setupBtn">⚙️ 대전 설정</button>
+      <button class="btn" type="button" id="toHome">🏠 처음으로</button>
+    </div>
+  </div>`;
+  document.getElementById("againBtn").onclick=()=>{restartSame();go("battle-play")};
+  document.getElementById("setupBtn").onclick=()=>go("battle");
+  document.getElementById("toHome").onclick=()=>go("home");
+  setTimeout(()=>{sfx.fanfare();confetti()},150);
+}
+
+render();
+})();
+</script>
+
+</body>
+</html>
